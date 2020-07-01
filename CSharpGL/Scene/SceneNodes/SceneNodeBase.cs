@@ -17,7 +17,7 @@ namespace CSharpGL
         /// <para>for debugging purpose only.</para>
         /// </summary>
         [Category(strSceneNodeBase)]
-        [Description("为便于调试而设置的ID值，没有应用意义。(for debugging purpose only.)")]
+        [Description("The ID of this instance. (for debugging purpose only.)")]
         public int Id { get; private set; }
 
         private static int idCounter = 0;
@@ -26,7 +26,7 @@ namespace CSharpGL
         /// 为便于调试而设置的Name值，没有应用意义。(for debugging purpose only.)
         /// </summary>
         [Category(strSceneNodeBase)]
-        [Description("为便于调试而设置的Name值，没有应用意义。(for debugging purpose only.)")]
+        [Description("The name of this instance. (for debugging purpose only.)")]
         public string Name { get; set; }
 
         /// <summary>
