@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.IO;
 using CSharpGL;
 
 namespace dreary
@@ -17,19 +18,43 @@ namespace dreary
         public ActionList actionlist; // list of actions opengl has to do (acting funny for some reason)
         public Camera pcam; // player camera
         public DateTime time; // time since program start (gameinit being called and creating all the assets)
+        public GroupNode rootElement;
+        public TreeView treeView { get { return treeView1; } }
         public Form1()
         {
             InitializeComponent();
-            treeView1.ImageList = DeviconServe.GenImageList();
+            treeView1.ImageList = DeviconServe.GenImageList(); // generate the image list
 
         }
 
         private void Form1_Load(object sender, EventArgs e)
         {
             InitGame(); // initgame creates pcam, actionlist, scene and time
+            string[] cfg = new string[] {
+
+            };
+            try
+            {
+                cfg = File.ReadAllLines("game.cfg"); // try to read game.cfg
+            } catch (Exception)
+            {
+
+            }
+            foreach(string i in cfg) // iterate through each line of cfg
+            {
+                string cmd = i.Split(' ')[0];
+                switch (cmd)
+                {
+                    case "nodbg": // nodbg removes all of the explorer and menustrip assets, leaving only the GL window behind
+                        splitContainer1.Panel1Collapsed = true;
+                        menuStrip1.Visible = false;
+                        break;
+                }
+            }
+
         }
 
-        private void Match(TreeView treeView, SceneNodeBase nodeBase)
+        public void Match(TreeView treeView, SceneNodeBase nodeBase)
         {
             treeView.Nodes.Clear(); // clear everything in the treeview
             var node = new TreeNode(nodeBase.Name) { Tag = nodeBase }; // add a node, set its name to the Name field of nodebase
@@ -101,7 +126,7 @@ namespace dreary
             var center = new vec3(0, 0, 0);
             var up = new vec3(0, 1, 0);
             pcam = new Camera(position, center, up, CameraType.Perspective, this.winGLCanvas1.Width, this.winGLCanvas1.Height); // create the camera
-            GroupNode rootElement = new GroupNode(); // this will be the rootnode of the scene
+            rootElement = new GroupNode(); // this will be the rootnode of the scene
             CreateGameTree(rootElement);
             scene = new Scene(pcam) // initialises the scene, use pcam as camera
             {
@@ -135,18 +160,12 @@ namespace dreary
         /// <param name="node">The root node in question</param>
         private void CreateGameTree(GroupNode node)
         {
+            node.Name = "Workspace"; // set the name so it will appear in the browser properly
             node.Initialize(); // initialise root node
             CameraNode cameraNode = new CameraNode(pcam); // bind cameranode to pcam
             cameraNode.Name = "Camera";
             node.Children.Add(cameraNode); // add this to the rootnode
             cameraNode.Initialize(); // init camnode
-            TextBillboardNode billboardNode = TextBillboardNode.Create(200, 40, 100); // create a billboard
-            billboardNode.EnableRendering = ThreeFlags.None;
-            billboardNode.Color = Color.White.ToVec3();
-            billboardNode.Text = "Hello"; // sets the billboard text to Hello
-            billboardNode.WorldPosition = new vec3(5, 0, 0);
-            billboardNode.Name = "Billboard_Dbg"; // set the billboard name to Billboard_Dbg
-            node.Children.Add(billboardNode); // add this to the rootnode
             Nodes.SkyboxNode skybox = Nodes.SkyboxNode.Create(new Bitmap(800, 800, System.Drawing.Imaging.PixelFormat.Format8bppIndexed)); // create the skybox
             try
             {
@@ -158,6 +177,31 @@ namespace dreary
             }
             skybox.Name = "Skybox";
             node.Children.Add(skybox); // add this to the rootnode
+        }
+
+        private void exitToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
+        }
+
+        private void createToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Forms.NewInstance instance = new Forms.NewInstance(rootElement, this);
+            instance.ShowDialog();
+        }
+
+        private void destroyToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SceneNodeBase node = (SceneNodeBase)treeView1.SelectedNode.Tag;
+            if(node != scene.RootNode)
+            {
+                node.Parent.Children.Remove(node);
+                node.Dispose();
+                Match(treeView1, rootElement);
+            } else
+            {
+                MessageBox.Show("You cant delete the workspace, silly!");
+            }
         }
     }
 }
