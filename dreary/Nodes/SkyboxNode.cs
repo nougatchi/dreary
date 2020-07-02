@@ -136,7 +136,7 @@ void main()
             set { this.enableRendering = value; }
         }
 
-        public void RenderBeforeChildren(CSharpGL.RenderEventArgs arg)
+        public void RenderBeforeChildren(RenderEventArgs arg)
         {
             if (!this.IsInitialized) { this.Initialize(); }
 
@@ -144,6 +144,7 @@ void main()
             mat4 projectionMat = camera.GetProjectionMatrix();
             mat4 viewMat = camera.GetViewMatrix();
             mat4 modelMat = this.GetModelMatrix();
+            WorldPosition = camera.Position;
 
             RenderMethod method = this.RenderUnit.Methods[0];
             ShaderProgram program = method.Program;
@@ -153,7 +154,7 @@ void main()
             method.Render();
         }
 
-        public void RenderAfterChildren(CSharpGL.RenderEventArgs arg)
+        public void RenderAfterChildren(RenderEventArgs arg)
         {
         }
 
