@@ -209,7 +209,8 @@ namespace dreary
             cameraNode.Name = "Camera";
             node.Children.Add(cameraNode); // add this to the rootnode
             cameraNode.Initialize(); // init camnode*/
-            Nodes.SkyboxNode skybox = Nodes.SkyboxNode.Create(new Bitmap(800, 800, System.Drawing.Imaging.PixelFormat.Format8bppIndexed)); // create the skybox
+            Image skbx = new Bitmap(800, 800, System.Drawing.Imaging.PixelFormat.Format8bppIndexed);
+            Nodes.SkyboxNode skybox = Nodes.SkyboxNode.Create(new Bitmap(skbx)); // create the skybox
             try
             {
                 skybox = Nodes.SkyboxNode.Create(new Bitmap(Image.FromFile("Content/skybox.png"))); // attempt loading the skybox "skybox"
