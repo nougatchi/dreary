@@ -20,6 +20,7 @@ namespace dreary.Net
             form.StatusmessageEnabled = true;
             form.Statusmessage = "Please wait.";
             cli = new TcpClient();
+            this.form = form;
         }
         public void Connect(string ip, int port)
         {
@@ -47,13 +48,16 @@ namespace dreary.Net
                 {
                     form.Statusmessage = $"Failure receiving instance. " + e.Message;
                 }
+
+                form.Statusmessage = $"Done.";
+                Thread.Sleep(5000);
+                form.Reenter();
             } catch(Exception e)
             {
                 form.Statusmessage = $"Failure in connection. " + e.Message;
+                Thread.Sleep(5000);
+                form.Reenter();
             }
-            form.Statusmessage = $"Done.";
-            Thread.Sleep(5000);
-            form.Reenter();
         }
     }
 }

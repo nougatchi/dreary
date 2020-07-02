@@ -8,6 +8,7 @@ namespace CSharpGL
     /// 用OpenGL初始化和渲染一个模型。
     /// <para>Initialize and render something with OpenGL.</para>
     /// </summary>
+    [Serializable]
     public abstract partial class SceneNodeBase : IWorldSpace, IDisposable
     {
         private const string strSceneNodeBase = "SceneNodeBase";

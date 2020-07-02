@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using CSharpGL;
 using System.Net.Sockets;
 using System.Runtime.Serialization.Formatters.Binary;
+using System.Net;
 
 namespace dreary.Net
 {
@@ -14,15 +15,17 @@ namespace dreary.Net
         Form1 form;
         TcpListener listen;
 
-        public Server(int port)
+        public Server(int port, Form1 form)
         {
-            listen = new TcpListener(port);
+            listen = new TcpListener(IPAddress.Parse("127.0.0.1"), port);
+            this.form = form;
         }
 
         public void Start()
         {
+            bool running = true;
             listen.Start();
-            while(true)
+            while(running)
             {
                 TcpClient cli = listen.AcceptTcpClient();
                 NetworkStream stream = cli.GetStream();

@@ -275,7 +275,9 @@ namespace dreary
 
         private void hostToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            server = new Server(3398);
+            server = new Server(3398, this);
+            Statusmessage = "Server up.";
+            StatusmessageEnabled = true;
             server.Start();
         }
     }

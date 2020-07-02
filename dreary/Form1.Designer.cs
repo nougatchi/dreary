@@ -176,6 +176,7 @@
             this.hostToolStripMenuItem.Name = "hostToolStripMenuItem";
             this.hostToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.hostToolStripMenuItem.Text = "Host";
+            this.hostToolStripMenuItem.Click += new System.EventHandler(this.hostToolStripMenuItem_Click);
             // 
             // Form1
             // 

@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using System.Drawing.Design;
 
 namespace CSharpGL
@@ -6,6 +7,7 @@ namespace CSharpGL
     /// <summary>
     /// 摄像机。Camera.
     /// </summary>
+    [Serializable]
     [Editor(typeof(PropertyGridEditor), typeof(UITypeEditor))]
     public partial class Camera : ICamera
     {

@@ -13,6 +13,7 @@ namespace CSharpGL
     /// camera, canvas, nodes.
     /// rendering, picking.
     /// </summary>
+    [Serializable]
     [Editor(typeof(PropertyGridEditor), typeof(UITypeEditor))]
     public partial class Scene
     {
