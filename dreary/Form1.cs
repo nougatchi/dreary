@@ -128,10 +128,10 @@ namespace dreary
         private void CreateGameTree(GroupNode node)
         {
             node.Initialize();
-            CameraNode cameraNode = new CameraNode(pcam);
+            /*CameraNode cameraNode = new CameraNode(pcam);
             cameraNode.Name = "Camera";
             node.Children.Add(cameraNode);
-            cameraNode.Initialize();
+            cameraNode.Initialize();*/
             TextBillboardNode billboardNode = TextBillboardNode.Create(200, 40, 100);
             billboardNode.EnableRendering = ThreeFlags.None;
             billboardNode.Color = Color.White.ToVec3();
