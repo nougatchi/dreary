@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
 using CSharpGL;
+using dreary.Net;
 
 namespace dreary
 {
@@ -19,12 +20,41 @@ namespace dreary
         public Camera pcam; // player camera
         public DateTime time; // time since program start (gameinit being called and creating all the assets)
         public GroupNode rootElement;
+        public Client client;
+        public Server server;
         public TreeView treeView { get { return treeView1; } }
+        public FirstPerspectiveManipulater camManip;
+
+        public bool StatusmessageEnabled;
+        public string Statusmessage;
+
+        private bool nodbg;
+
         public Form1()
         {
             InitializeComponent();
             treeView1.ImageList = DeviconServe.GenImageList(); // generate the image list
 
+        }
+        
+        public void NobgTrue()
+        {
+            splitContainer1.Panel1Collapsed = true;
+            menuStrip1.Visible = false;
+            nodbg = true;
+        }
+
+        public void Reenter()
+        {
+            splitContainer1.Panel1Collapsed = false;
+            menuStrip1.Visible = true;
+            camManip.Bind(pcam, winGLCanvas1);
+        }
+
+        public void ConnectModeEnable()
+        {
+            NobgTrue();
+            camManip.Unbind();
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -40,6 +70,7 @@ namespace dreary
             {
 
             }
+            nodbg = false;
             foreach(string i in cfg) // iterate through each line of cfg
             {
                 string cmd = i.Split(' ')[0];
@@ -48,10 +79,10 @@ namespace dreary
                     case "nodbg": // nodbg removes all of the explorer and menustrip assets, leaving only the GL window behind
                         splitContainer1.Panel1Collapsed = true;
                         menuStrip1.Visible = false;
+                        nodbg = true;
                         break;
                 }
             }
-
         }
 
         public void Match(TreeView treeView, SceneNodeBase nodeBase)
@@ -65,6 +96,10 @@ namespace dreary
             treeView.Nodes.Add(anode);
             anode.ImageIndex = DeviconServe.GetDeviconIndex(actionlist.GetType().Name); // get the devicon of anode
             anode.SelectedImageIndex = DeviconServe.GetDeviconIndex(actionlist.GetType().Name);
+            var cam = new TreeNode(pcam.GetType().Name) { Tag = pcam };
+            treeView.Nodes.Add(cam);
+            treeView.ImageIndex = DeviconServe.GetDeviconIndex(pcam.GetType().Name);
+            treeView.SelectedImageIndex = DeviconServe.GetDeviconIndex(pcam.GetType().Name);
             Match(node, nodeBase); // call for each child
             Match(anode, actionlist); // call for each child
         }
@@ -100,15 +135,22 @@ namespace dreary
                 vec4 clearColor = scene.ClearColor;
                 GL.Instance.ClearColor(clearColor.x, clearColor.y, clearColor.z, clearColor.w);
                 GL.Instance.Clear(GL.GL_COLOR_BUFFER_BIT | GL.GL_DEPTH_BUFFER_BIT | GL.GL_STENCIL_BUFFER_BIT);
-                GL.Instance.DrawText(10, 22, Color.Red, "Arial", 12, "List Size: " + list.Count);
-                string tasks = "Tasks: ";
-                foreach(object i in list)
+                list.Act(new ActionParams(Viewport.GetCurrent())); // fixed
+                if (!nodbg)
                 {
-                    tasks += $"{i.GetType().Name} ";
+                    string tasks = "Tasks: ";
+                    foreach (object i in list)
+                    {
+                        tasks += $"{i.GetType().Name} ";
+                    }
+                    GL.Instance.DrawText(10, 22, Color.Red, "Arial", 12, "List Size: " + list.Count);
+                    GL.Instance.DrawText(10, 34, Color.Red, "Arial", 12, tasks);
+                    GL.Instance.DrawText(10, 10, Color.Red, "Arial", 12, "FPS: " + winGLCanvas1.FPS.ToString() + " Time " + (DateTime.Now - time).Seconds);
                 }
-                GL.Instance.DrawText(10, 34, Color.Red, "Arial", 12, tasks);
-                list.Act(new ActionParams(Viewport.GetCurrent())); // this apparently wont work. gl is known to work as it draws above and below but this wont budge at all
-                GL.Instance.DrawText(10, 10, Color.Red, "Arial", 12, "FPS: " + winGLCanvas1.FPS.ToString() + " Time " + (DateTime.Now - time).Seconds);
+                if(StatusmessageEnabled)
+                {
+                    GL.Instance.DrawText(10, 34, Color.White, "Verdana", 24, Statusmessage);
+                }
             }
         }
 
@@ -147,10 +189,10 @@ namespace dreary
             var billboardRenderAction = new BillboardRenderAction(scene.Camera, billboardSortAction); // billboard render
             list.Add(billboardRenderAction);
             actionlist = list;
-            var manipulater = new FirstPerspectiveManipulater(); // allows moving the camera
-            manipulater.BindingMouseButtons = GLMouseButtons.Right;
-            manipulater.StepLength = 0.1f;
-            manipulater.Bind(pcam, winGLCanvas1);
+            camManip = new FirstPerspectiveManipulater(); // allows moving the camera
+            camManip.BindingMouseButtons = GLMouseButtons.Right;
+            camManip.StepLength = 0.1f;
+            camManip.Bind(pcam, winGLCanvas1);
             Match(treeView1, scene.RootNode); // update the treeview
         }
 
@@ -162,14 +204,15 @@ namespace dreary
         {
             node.Name = "Workspace"; // set the name so it will appear in the browser properly
             node.Initialize(); // initialise root node
-            CameraNode cameraNode = new CameraNode(pcam); // bind cameranode to pcam
+            // apparently cameranode doesnt work.
+            /*CameraNode cameraNode = new CameraNode(pcam); // bind cameranode to pcam
             cameraNode.Name = "Camera";
             node.Children.Add(cameraNode); // add this to the rootnode
-            cameraNode.Initialize(); // init camnode
+            cameraNode.Initialize(); // init camnode*/
             Nodes.SkyboxNode skybox = Nodes.SkyboxNode.Create(new Bitmap(800, 800, System.Drawing.Imaging.PixelFormat.Format8bppIndexed)); // create the skybox
             try
             {
-                skybox = Nodes.SkyboxNode.Create(new Bitmap(Image.FromFile("Content/e30cwk97.bmp"))); // attempt loading the skybox "e30cwk97.bmp"
+                skybox = Nodes.SkyboxNode.Create(new Bitmap(Image.FromFile("Content/skybox.png"))); // attempt loading the skybox "skybox"
             }
             catch (Exception e)
             {
@@ -186,22 +229,54 @@ namespace dreary
 
         private void createToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Forms.NewInstance instance = new Forms.NewInstance(rootElement, this);
-            instance.ShowDialog();
+            try
+            {
+                Forms.NewInstance instance = new Forms.NewInstance(rootElement, this);
+                instance.ShowDialog();
+            } catch(Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+                Match(treeView1, rootElement);
+            }
         }
 
         private void destroyToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            SceneNodeBase node = (SceneNodeBase)treeView1.SelectedNode.Tag;
-            if(node != scene.RootNode)
+            try
             {
-                node.Parent.Children.Remove(node);
-                node.Dispose();
-                Match(treeView1, rootElement);
-            } else
-            {
-                MessageBox.Show("You cant delete the workspace, silly!");
+                SceneNodeBase node = (SceneNodeBase)treeView1.SelectedNode.Tag;
+                if (node != scene.RootNode)
+                {
+                    node.Parent.Children.Remove(node);
+                    node.Dispose();
+                    Match(treeView1, rootElement);
+                }
+                else
+                {
+                    MessageBox.Show("You cant delete the workspace, silly!");
+                }
             }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
+        }
+
+        private void winGLCanvas1_Resize(object sender, EventArgs e)
+        {
+            scene.Camera.AspectRatio = ((float)winGLCanvas1.Width) / ((float)winGLCanvas1.Height);
+        }
+
+        private void connectToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            client = new Client(this);
+            client.Connect("127.0.0.1", 3398);
+        }
+
+        private void hostToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            server = new Server(3398);
+            server.Start();
         }
     }
 }

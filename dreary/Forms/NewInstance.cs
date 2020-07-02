@@ -33,8 +33,8 @@ namespace dreary.Forms
             switch(listBox1.SelectedItem)
             {
                 case "SkyboxNode":
-                    string sn_skybox = "Content/e30cwk97.bmp";
-                    InputBoxes.ShowInputDialog(ref sn_skybox, sn_skybox);
+                    string sn_skybox = "Content/skybox.png";
+                    InputBoxes.ShowInputDialog(ref sn_skybox, "Skybox");
                     SkyboxNode node = SkyboxNode.Create(new Bitmap(Image.FromFile(sn_skybox)));
                     node.Name = "NewSkybox";
                     node.Parent = nodebase;
@@ -46,6 +46,21 @@ namespace dreary.Forms
                     textBillboardNode.Parent = nodebase;
                     textBillboardNode.Text = sn_billboard;
                     textBillboardNode.EnableRendering = ThreeFlags.None;
+                    break;
+                case "CubeNode":
+                    CubeNode cube = CubeNode.Create();
+                    cube.Name = "NewCube";
+                    cube.Parent = nodebase;
+                    break;
+                case "ShadowVolumeNode":
+                    CubeModel model = new CubeModel();
+                    string sv_pos = CubeModel.strPosition;
+                    string sv_normal = "0 0 0";
+                    InputBoxes.ShowInputDialog(ref sv_pos, "Volume Position");
+                    InputBoxes.ShowInputDialog(ref sv_pos, "Volume Normal");
+                    ShadowVolumeNode shadow = ShadowVolumeNode.Create(model, sv_pos, sv_normal, new vec3(1, 1, 1));
+                    shadow.Name = "NewLight";
+                    shadow.Parent = nodebase;
                     break;
             }
             src_form.Match(src_form.treeView,nodebase);

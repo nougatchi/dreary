@@ -51,7 +51,7 @@ void main()
             var model = new Skybox();
             var node = new SkyboxNode(model, Skybox.strPosition, totalBmp, builder);
             node.Initialize();
-
+            node.Scale = new vec3(9000000, 9000000, 9000000);
             return node;
         }
 
@@ -85,6 +85,7 @@ void main()
             {
                 g.DrawImage(totalBmp, new Rectangle(0, 0, width, height), new Rectangle(width, 0, width, height), GraphicsUnit.Pixel);
             }
+            top.RotateFlip(RotateFlipType.Rotate180FlipNone); // apparently it doesnt like aligning the top so we have to do this bullshit
             var left = new Bitmap(width, height);
             using (var g = Graphics.FromImage(left))
             {
@@ -115,11 +116,11 @@ void main()
             right.RotateFlip(flip); left.RotateFlip(flip);
             top.RotateFlip(flip); bottom.RotateFlip(RotateFlipType.Rotate180FlipX);
             back.RotateFlip(flip); front.RotateFlip(flip);
-#if DEBUG
-            right.Save("right.png"); left.Save("left.png");
-            top.Save("top.png"); bottom.Save("bottom.png");
-            back.Save("back.png"); front.Save("front.png");
-#endif
+            /* causes clutter. DONT DO IT ANYMORE
+                right.Save("right.png"); left.Save("left.png");
+                top.Save("top.png"); bottom.Save("bottom.png");
+                back.Save("back.png"); front.Save("front.png");
+            */
             var result = new CubemapDataProvider(right, left, top, bottom, back, front);
             return result;
         }
@@ -171,8 +172,6 @@ void main()
 
             private IDrawCommand drawCmd;
 
-            #region IBufferable 成员
-
             public IEnumerable<VertexBuffer> GetVertexAttribute(string bufferName)
             {
                 if (bufferName == strPosition)
@@ -199,8 +198,6 @@ void main()
 
                 yield return this.drawCmd;
             }
-
-            #endregion
 
             private const float xLength = 1;
             private const float yLength = 1;

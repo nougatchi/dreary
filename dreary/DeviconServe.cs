@@ -44,6 +44,7 @@ namespace dreary
             {
                 case "GroupNode":
                     return 1;
+                case "Camera":
                 case "CameraNode":
                     return 2;
                 case "ActionList":
