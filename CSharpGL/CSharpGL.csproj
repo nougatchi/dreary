@@ -97,6 +97,7 @@
     <None Include="Scene\Manipulaters\readme.md" />
     <None Include="GLCanvas\readme.md" />
     <Compile Include="BasicDataStructures\Viewport.cs" />
+    <Compile Include="Dreary\ByteStack.cs" />
     <Compile Include="GLAPI\GL.Enumerations\Blend.cs" />
     <Compile Include="GLAPI\GL.Enumerations\CubemapFace.cs" />
     <Compile Include="GLAPI\GL.Enumerations\StencilTest.cs" />

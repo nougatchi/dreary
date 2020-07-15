@@ -16,6 +16,7 @@ namespace dreary.Forms
     {
         SceneNodeBase nodebase;
         Form1 src_form;
+        static SpotLight lastspotlight;
         public NewInstance(SceneNodeBase select, Form1 form)
         {
             InitializeComponent();
@@ -62,8 +63,36 @@ namespace dreary.Forms
                     shadow.Name = "NewLight";
                     shadow.Parent = nodebase;
                     break;
+                case "TerrainNode":
+                    TerrainNode terrain = TerrainNode.Create();
+                    terrain.Parent = nodebase;
+                    terrain.Name = "NewTerrain";
+                    break;
+                case "SpotLightNode":
+                    CubeModel sp_model = new CubeModel();
+                    string sp_pos = "0 0 0";
+                    string sp_target = "0 0 0";
+                    InputBoxes.ShowInputDialog(ref sp_pos, "Volume Position");
+                    InputBoxes.ShowInputDialog(ref sp_target, "Volume Target");
+                    string[] sppositions_STR = sp_pos.Split(' ');
+                    vec3 sp_posv = new vec3(float.Parse(sppositions_STR[0]), float.Parse(sppositions_STR[1]), float.Parse(sppositions_STR[2]));
+                    string[] sptarget_STR = sp_target.Split(' ');
+                    vec3 sp_tarv = new vec3(float.Parse(sptarget_STR[0]), float.Parse(sptarget_STR[1]), float.Parse(sptarget_STR[2]));
+                    SpotLight spotlight = new SpotLight(sp_posv, sp_tarv, 45);
+                    SpotLightNode spotlightnode = SpotLightNode.Create(spotlight, sp_model, sp_pos, sp_pos, new vec3(1, 1, 1));
+                    spotlightnode.Parent = nodebase;
+                    spotlightnode.Name = "NewSpotlight";
+                    lastspotlight = spotlight;
+                    break;
+                case "CubeLightTestNode":
+                    CubeLightTestNode cubeLightTest = CubeLightTestNode.Create();
+                    cubeLightTest.Parent = nodebase;
+                    cubeLightTest.Name = "NewCubeLightTest";
+                    cubeLightTest.SetLight(lastspotlight);
+                    break;
             }
             src_form.Match(src_form.treeView,nodebase);
+            Close();
         }
     }
 }

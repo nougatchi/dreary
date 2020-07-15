@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CSharpGL", "CSharpGL\CSharp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CSharpGL.Windows", "CSharpGL.Windows\CSharpGL.Windows.csproj", "{704921FB-E30A-4C8A-BC73-F343AB2EB690}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "game", "game\game.csproj", "{98A9AC4B-8F1D-4944-AC19-A452D1D7E838}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{704921FB-E30A-4C8A-BC73-F343AB2EB690}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{704921FB-E30A-4C8A-BC73-F343AB2EB690}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{704921FB-E30A-4C8A-BC73-F343AB2EB690}.Release|Any CPU.Build.0 = Release|Any CPU
+		{98A9AC4B-8F1D-4944-AC19-A452D1D7E838}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{98A9AC4B-8F1D-4944-AC19-A452D1D7E838}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{98A9AC4B-8F1D-4944-AC19-A452D1D7E838}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{98A9AC4B-8F1D-4944-AC19-A452D1D7E838}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

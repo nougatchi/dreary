@@ -10,6 +10,8 @@ using System.Windows.Forms;
 using System.IO;
 using CSharpGL;
 using dreary.Net;
+using dreary.Basplash;
+using System.Reflection;
 
 namespace dreary
 {
@@ -20,10 +22,12 @@ namespace dreary
         public Camera pcam; // player camera
         public DateTime time; // time since program start (gameinit being called and creating all the assets)
         public GroupNode rootElement;
+        public bool dllMode;
         public Client client;
         public Server server;
         public TreeView treeView { get { return treeView1; } }
         public FirstPerspectiveManipulater camManip;
+        public DrearyGameDll gameDll;
 
         public bool StatusmessageEnabled;
         public string Statusmessage;
@@ -59,29 +63,42 @@ namespace dreary
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            InitGame(); // initgame creates pcam, actionlist, scene and time
-            string[] cfg = new string[] {
+            if(!dllMode)
+            {
+                InitGame(); // initgame creates pcam, actionlist, scene and time
+                string[] cfg = new string[] {
 
             };
-            try
-            {
-                cfg = File.ReadAllLines("game.cfg"); // try to read game.cfg
-            } catch (Exception)
-            {
-
-            }
-            nodbg = false;
-            foreach(string i in cfg) // iterate through each line of cfg
-            {
-                string cmd = i.Split(' ')[0];
-                switch (cmd)
+                try
                 {
-                    case "nodbg": // nodbg removes all of the explorer and menustrip assets, leaving only the GL window behind
-                        splitContainer1.Panel1Collapsed = true;
-                        menuStrip1.Visible = false;
-                        nodbg = true;
-                        break;
+                    cfg = File.ReadAllLines("game.cfg"); // try to read game.cfg
                 }
+                catch (Exception)
+                {
+
+                }
+                nodbg = false;
+                foreach (string i in cfg) // iterate through each line of cfg
+                {
+                    string cmd = i.Split(' ')[0];
+                    switch (cmd)
+                    {
+                        case "nodbg": // nodbg removes all of the explorer and menustrip assets, leaving only the GL window behind
+                            splitContainer1.Panel1Collapsed = true;
+                            menuStrip1.Visible = false;
+                            nodbg = true;
+                            break;
+                    }
+                }
+#if DEBUG_CALLS
+                Basplash.Basplash basplash = new Basplash.Basplash();
+                basplash.Execute("object.RvspInt|abacba|1002;game.Print|vabacba");
+#endif
+            } else
+            {
+                gameDll.DrearyCreateInstance("game.External", "External");
+                gameDll.DrearyCall("External", "gInit", pcam, time, rootElement, client, server, camManip, actionlist, scene, winGLCanvas1);
+                
             }
         }
 
@@ -102,6 +119,7 @@ namespace dreary
             treeView.SelectedImageIndex = DeviconServe.GetDeviconIndex(pcam.GetType().Name);
             Match(node, nodeBase); // call for each child
             Match(anode, actionlist); // call for each child
+            treeView.ExpandAll();
         }
 
         private void Match(TreeNode node, SceneNodeBase nodeBase)
@@ -204,11 +222,6 @@ namespace dreary
         {
             node.Name = "Workspace"; // set the name so it will appear in the browser properly
             node.Initialize(); // initialise root node
-            // apparently cameranode doesnt work.
-            /*CameraNode cameraNode = new CameraNode(pcam); // bind cameranode to pcam
-            cameraNode.Name = "Camera";
-            node.Children.Add(cameraNode); // add this to the rootnode
-            cameraNode.Initialize(); // init camnode*/
             Image skbx = new Bitmap(800, 800, System.Drawing.Imaging.PixelFormat.Format8bppIndexed);
             Nodes.SkyboxNode skybox = Nodes.SkyboxNode.Create(new Bitmap(skbx)); // create the skybox
             try
@@ -265,7 +278,10 @@ namespace dreary
 
         private void winGLCanvas1_Resize(object sender, EventArgs e)
         {
-            scene.Camera.AspectRatio = ((float)winGLCanvas1.Width) / ((float)winGLCanvas1.Height);
+            if(!(scene is null))
+            {
+                scene.Camera.AspectRatio = ((float)winGLCanvas1.Width) / ((float)winGLCanvas1.Height);
+            }
         }
 
         private void connectToolStripMenuItem_Click(object sender, EventArgs e)
@@ -280,6 +296,23 @@ namespace dreary
             Statusmessage = "Server up.";
             StatusmessageEnabled = true;
             server.Start();
+        }
+
+        private void saveToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            byte[] gdata;
+
+        }
+
+        private byte[] SerializeData(SceneNodeBase node)
+        {
+            byte[] data = new byte[1024];
+            foreach(SceneNodeBase child in node.Children)
+            {
+                SerializeData(child);
+            }
+
+            return data;
         }
     }
 }

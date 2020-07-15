@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.IO;
 
 namespace dreary
 {
@@ -16,7 +17,14 @@ namespace dreary
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Form1());
+            var gameForm = new Form1();
+            if (File.Exists("game.dll"))
+            {
+                gameForm.dllMode = true;
+                DrearyGameDll gameDll = new DrearyGameDll("game.dll");
+                gameForm.gameDll = gameDll;
+            }
+            Application.Run(gameForm);
         }
     }
 }

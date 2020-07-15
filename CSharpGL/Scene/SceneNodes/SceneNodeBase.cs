@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.ComponentModel;
 using System.Drawing.Design;
 
@@ -44,6 +45,16 @@ namespace CSharpGL
             {
                 return string.Format("[{0}]: [{1}][{2}]", this.Id, this.Name, this.GetType().Name);
             }
+        }
+
+        public void Save()
+        {
+
+        }
+
+        public virtual void InternalSave()
+        {
+
         }
 
         /// <summary>

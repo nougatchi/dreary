@@ -96,7 +96,7 @@ namespace dreary.Nodes
         }
     }
 
-    enum PrimitiveRenderMode : int
+    public enum PrimitiveRenderMode : int
     {
         Diffuse,
         Normal,
