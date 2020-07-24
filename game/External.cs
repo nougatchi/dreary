@@ -6,12 +6,22 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using CSharpGL;
+using dreary.Net;
 
 namespace game
 {
     public class External
     {
-        public void gInit(Camera pcam, DateTime time, SceneNodeBase rootElement, object client, object server, FirstPerspectiveManipulater camManip, ActionList actionlist, Scene scene, WinGLCanvas canvas)
+        public string[] getGameDetails()
+        {
+            return new string[]
+            {
+                "Dreary game.dll Test",
+                "v1.0.0.0",
+                "Dreary1",
+            };
+        }
+        public void gInit(Camera pcam, DateTime time, SceneNodeBase rootElement, Client client, Server server, FirstPerspectiveManipulater camManip, ActionList actionlist, Scene scene, WinGLCanvas canvas)
         {
             var position = new vec3(5, 3, 4);
             var center = new vec3(0, 0, 0);

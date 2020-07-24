@@ -131,6 +131,7 @@
             // 
             // saveToolStripMenuItem
             // 
+            this.saveToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("saveToolStripMenuItem.Image")));
             this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
             this.saveToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.saveToolStripMenuItem.Text = "Save";
@@ -138,12 +139,14 @@
             // 
             // loadToolStripMenuItem
             // 
+            this.loadToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("loadToolStripMenuItem.Image")));
             this.loadToolStripMenuItem.Name = "loadToolStripMenuItem";
             this.loadToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.loadToolStripMenuItem.Text = "Load";
             // 
             // exitToolStripMenuItem
             // 
+            this.exitToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("exitToolStripMenuItem.Image")));
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
             this.exitToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.exitToolStripMenuItem.Text = "Exit";
@@ -160,15 +163,17 @@
             // 
             // createToolStripMenuItem
             // 
+            this.createToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("createToolStripMenuItem.Image")));
             this.createToolStripMenuItem.Name = "createToolStripMenuItem";
-            this.createToolStripMenuItem.Size = new System.Drawing.Size(114, 22);
+            this.createToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.createToolStripMenuItem.Text = "Create";
             this.createToolStripMenuItem.Click += new System.EventHandler(this.createToolStripMenuItem_Click);
             // 
             // destroyToolStripMenuItem
             // 
+            this.destroyToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("destroyToolStripMenuItem.Image")));
             this.destroyToolStripMenuItem.Name = "destroyToolStripMenuItem";
-            this.destroyToolStripMenuItem.Size = new System.Drawing.Size(114, 22);
+            this.destroyToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.destroyToolStripMenuItem.Text = "Destroy";
             this.destroyToolStripMenuItem.Click += new System.EventHandler(this.destroyToolStripMenuItem_Click);
             // 
@@ -183,15 +188,17 @@
             // 
             // connectToolStripMenuItem
             // 
+            this.connectToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("connectToolStripMenuItem.Image")));
             this.connectToolStripMenuItem.Name = "connectToolStripMenuItem";
-            this.connectToolStripMenuItem.Size = new System.Drawing.Size(119, 22);
+            this.connectToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.connectToolStripMenuItem.Text = "Connect";
             this.connectToolStripMenuItem.Click += new System.EventHandler(this.connectToolStripMenuItem_Click);
             // 
             // hostToolStripMenuItem
             // 
+            this.hostToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("hostToolStripMenuItem.Image")));
             this.hostToolStripMenuItem.Name = "hostToolStripMenuItem";
-            this.hostToolStripMenuItem.Size = new System.Drawing.Size(119, 22);
+            this.hostToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.hostToolStripMenuItem.Text = "Host";
             this.hostToolStripMenuItem.Click += new System.EventHandler(this.hostToolStripMenuItem_Click);
             // 

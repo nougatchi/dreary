@@ -5,7 +5,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{EF7B69DD-7BA6-4AFD-834D-B07E27374A5B}</ProjectGuid>
-    <OutputType>WinExe</OutputType>
+    <OutputType>Exe</OutputType>
     <RootNamespace>dreary</RootNamespace>
     <AssemblyName>dreary</AssemblyName>
     <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
@@ -34,6 +34,9 @@
   <PropertyGroup>
     <ApplicationIcon>dreary.ico</ApplicationIcon>
   </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -48,6 +51,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AudioSystem.cs" />
     <Compile Include="Basplash\Basplash.cs" />
     <Compile Include="Basplash\BasplashBaseClasses.cs" />
     <Compile Include="DeviconServe.cs" />
@@ -64,6 +68,12 @@
     </Compile>
     <Compile Include="Forms\NewInstance.Designer.cs">
       <DependentUpon>NewInstance.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GameFatal.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GameFatal.Designer.cs">
+      <DependentUpon>GameFatal.cs</DependentUpon>
     </Compile>
     <Compile Include="Net\Client.cs" />
     <Compile Include="Net\Server.cs" />
@@ -86,6 +96,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\NewInstance.resx">
       <DependentUpon>NewInstance.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GameFatal.resx">
+      <DependentUpon>GameFatal.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -111,6 +124,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\CSCore\CSCore.csproj">
+      <Project>{c3dccfe3-dd3f-4eee-849b-33e355b1e064}</Project>
+      <Name>CSCore</Name>
+    </ProjectReference>
     <ProjectReference Include="..\CSharpGL.Windows\CSharpGL.Windows.csproj">
       <Project>{704921fb-e30a-4c8a-bc73-f343ab2eb690}</Project>
       <Name>CSharpGL.Windows</Name>
@@ -561,6 +578,12 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="dreary.ico" />
+    <Content Include="GameSounds\clickfast.wav">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="GameSounds\rwd.mp3">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

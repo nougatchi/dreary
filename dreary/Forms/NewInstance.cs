@@ -92,6 +92,7 @@ namespace dreary.Forms
                     break;
             }
             src_form.Match(src_form.treeView,nodebase);
+            AudioSystem.PlayAudio("GameSounds/clickfast.wav");
             Close();
         }
     }

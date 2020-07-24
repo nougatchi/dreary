@@ -116,11 +116,11 @@ void main()
             right.RotateFlip(flip); left.RotateFlip(flip);
             top.RotateFlip(flip); bottom.RotateFlip(RotateFlipType.Rotate180FlipX);
             back.RotateFlip(flip); front.RotateFlip(flip);
-            /* causes clutter. DONT DO IT ANYMORE
-                right.Save("right.png"); left.Save("left.png");
-                top.Save("top.png"); bottom.Save("bottom.png");
-                back.Save("back.png"); front.Save("front.png");
-            */
+#if SKYBOX_SAVE
+            right.Save("right.png"); left.Save("left.png");
+            top.Save("top.png"); bottom.Save("bottom.png");
+            back.Save("back.png"); front.Save("front.png");
+#endif
             var result = new CubemapDataProvider(right, left, top, bottom, back, front);
             return result;
         }
