@@ -8,7 +8,7 @@ using CSharpGL;
 
 namespace dreary.Nodes
 {
-    class SkyboxNode : PickableNode, IRenderable
+    public class SkyboxNode : PickableNode, IRenderable
     {
         private const string inPosition = "inPosition";
         private const string mvpMat = "mvpMat";

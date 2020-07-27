@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 namespace dreary.Nodes
 {
     [Editor(typeof(PropertyGridEditor), typeof(UITypeEditor))]
-    partial class CubeNode : ModernNode, IRenderable
+    public partial class CubeNode : ModernNode, IRenderable
     {
         [Category("CubeNode")]
         [Description("The color of this instance.")]

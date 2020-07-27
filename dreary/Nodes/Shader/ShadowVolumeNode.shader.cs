@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace dreary.Nodes
 {
-    partial class ShadowVolumeNode
+    public partial class ShadowVolumeNode
     {
 
         private const string ambientVert = @"#version 330

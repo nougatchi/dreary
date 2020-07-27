@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace dreary.Nodes
 {
-    partial class ShadowVolumeNode : ModernNode, ISupportShadowVolume
+    public partial class ShadowVolumeNode : ModernNode, ISupportShadowVolume
     {
 
         public static ShadowVolumeNode Create(IBufferSource model, string position, string normal, vec3 size)

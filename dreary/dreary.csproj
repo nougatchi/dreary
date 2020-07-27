@@ -69,6 +69,12 @@
     <Compile Include="Forms\NewInstance.Designer.cs">
       <DependentUpon>NewInstance.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\OneExecute.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\OneExecute.Designer.cs">
+      <DependentUpon>OneExecute.cs</DependentUpon>
+    </Compile>
     <Compile Include="GameFatal.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -91,11 +97,27 @@
     <Compile Include="Nodes\TerrainNode.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Script\DrearyEForms.cs" />
+    <Compile Include="Script\NoticeForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Script\NoticeForm.Designer.cs">
+      <DependentUpon>NoticeForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Script\TextInputForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Script\TextInputForm.Designer.cs">
+      <DependentUpon>TextInputForm.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\NewInstance.resx">
       <DependentUpon>NewInstance.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\OneExecute.resx">
+      <DependentUpon>OneExecute.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GameFatal.resx">
       <DependentUpon>GameFatal.cs</DependentUpon>
@@ -109,6 +131,12 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="Script\NoticeForm.resx">
+      <DependentUpon>NoticeForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Script\TextInputForm.resx">
+      <DependentUpon>TextInputForm.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

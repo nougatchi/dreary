@@ -12,6 +12,9 @@ using CSharpGL;
 using dreary.Net;
 using dreary.Basplash;
 using System.Reflection;
+using System.Diagnostics;
+using Microsoft.CSharp;
+using System.CodeDom.Compiler;
 
 namespace dreary
 {
@@ -130,8 +133,12 @@ namespace dreary
                 anode.SelectedImageIndex = DeviconServe.GetDeviconIndex(actionlist.GetType().Name);
                 var cam = new TreeNode(pcam.GetType().Name) { Tag = pcam };
                 treeView.Nodes.Add(cam);
-                treeView.ImageIndex = DeviconServe.GetDeviconIndex(pcam.GetType().Name);
-                treeView.SelectedImageIndex = DeviconServe.GetDeviconIndex(pcam.GetType().Name);
+                cam.ImageIndex = DeviconServe.GetDeviconIndex(pcam.GetType().Name);
+                cam.SelectedImageIndex = DeviconServe.GetDeviconIndex(pcam.GetType().Name);
+                var scn = new TreeNode(scene.GetType().Name) { Tag = scene };
+                treeView.Nodes.Add(scn);
+                scn.ImageIndex = DeviconServe.GetDeviconIndex(scn.GetType().Name);
+                scn.SelectedImageIndex = DeviconServe.GetDeviconIndex(scn.GetType().Name);
                 Match(node, nodeBase); // call for each child
                 Match(anode, actionlist); // call for each child
                 treeView.ExpandAll();
@@ -378,6 +385,111 @@ namespace dreary
             }
 
             return data;
+        }
+
+        private string TransmorgifyCode(string line, bool latent = false)
+        {
+            if(latent)
+            {
+                return "using System;" +
+                    "using dreary;" +
+                    "using System.Windows.Forms;" +
+                    "using dreary.Net;" +
+                    "using dreary.Basplash;" +
+                    "using dreary.Nodes;" +
+                    "using CSharpGL;" +
+                    "using System.Collections.Generic;" +
+                    "using dreary.Script;" +
+                    "namespace RuntimeCode {" +
+                    "public static class Code {" +
+                    line +
+                    "}" +
+                    "}";
+            }
+            return "using System;" +
+                "using dreary;" +
+                "using dreary.Net;" +
+                "using dreary.Basplash;" + 
+                "using dreary.Nodes;" +
+                "using CSharpGL;" +
+                "using System.Collections.Generic;" +
+                "namespace RuntimeCode {" +
+                "public static class Code {" +
+                "public static void Entry(Scene scene, Camera cam) {" +
+                line +
+                "}" +
+                "}" +
+                "}";
+        }
+
+        private void toolStripButton1_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                CSharpCodeProvider provider = new CSharpCodeProvider();
+                CompilerParameters parameters = new CompilerParameters();
+                parameters.GenerateInMemory = true;
+                parameters.ReferencedAssemblies.Add("System.dll");
+                parameters.ReferencedAssemblies.Add("dal.dll");
+                parameters.ReferencedAssemblies.Add("dgl.dll");
+                parameters.ReferencedAssemblies.Add("dglw.dll");
+                parameters.ReferencedAssemblies.Add("dreary.exe");
+                Console.WriteLine("Code transmorgified: \n" + TransmorgifyCode(toolStripTextBox1.Text));
+                CompilerResults results = provider.CompileAssemblyFromSource(parameters, TransmorgifyCode(toolStripTextBox1.Text));
+                foreach (string i in results.Output)
+                {
+                    Console.WriteLine(i);
+                }
+                foreach (CompilerError i in results.Errors)
+                {
+                    Console.WriteLine("[ERROR in JIT Code] " + i.ErrorText);
+                }
+                results.CompiledAssembly.GetType("RuntimeCode.Code").GetMethod("Entry").Invoke(null, new object[] { scene, pcam });
+                provider.Dispose();
+            }
+            catch (Exception exc)
+            {
+                MessageBox.Show(exc.ToString(), "Script Error");
+            }
+        }
+
+        private void classToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void createOneExecuteScriptToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                Forms.OneExecute ox = new Forms.OneExecute();
+                ox.ShowDialog();
+                CSharpCodeProvider provider = new CSharpCodeProvider();
+                CompilerParameters parameters = new CompilerParameters();
+                parameters.GenerateInMemory = true;
+                parameters.ReferencedAssemblies.Add("System.dll");
+                parameters.ReferencedAssemblies.Add("System.Windows.Forms.dll");
+                parameters.ReferencedAssemblies.Add("dal.dll");
+                parameters.ReferencedAssemblies.Add("dgl.dll");
+                parameters.ReferencedAssemblies.Add("dglw.dll");
+                parameters.ReferencedAssemblies.Add("dreary.exe");
+                Console.WriteLine("Code transmorgified: \n" + TransmorgifyCode(ox.output, true));
+                CompilerResults results = provider.CompileAssemblyFromSource(parameters, TransmorgifyCode(ox.output, true));
+                foreach (string i in results.Output)
+                {
+                    Console.WriteLine(i);
+                }
+                foreach (CompilerError i in results.Errors)
+                {
+                    Console.WriteLine("[ERROR in JIT Code] " + i.ErrorText);
+                }
+                results.CompiledAssembly.GetType("RuntimeCode.Code").GetMethod("Entry").Invoke(null, new object[] { scene, pcam, this });
+                provider.Dispose();
+            }
+            catch (Exception exc)
+            {
+                MessageBox.Show(exc.ToString(), "Script Error");
+            }
         }
     }
 }

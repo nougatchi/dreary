@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
+using System.Diagnostics;
 
 namespace dreary
 {
@@ -15,6 +16,7 @@ namespace dreary
         [STAThread]
         static void Main()
         {
+            Debug.Listeners.Add(new ConsoleTraceListener());
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             var gameForm = new Form1();

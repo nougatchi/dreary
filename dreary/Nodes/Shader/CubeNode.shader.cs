@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace dreary.Nodes
 {
-    partial class CubeNode
+    public partial class CubeNode
     {
         private const string vertexCode = @"
 #version 150

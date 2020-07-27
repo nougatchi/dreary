@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 namespace dreary.Nodes
 {
     [Editor(typeof(PropertyGridEditor), typeof(UITypeEditor))]
-    partial class TerrainNode : ModernNode, IRenderable
+    public partial class TerrainNode : ModernNode, IRenderable
     {
         /// <summary>
         /// 
