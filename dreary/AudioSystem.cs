@@ -7,21 +7,32 @@ using CSCore.Codecs.MP3;
 using CSCore.Streams;
 using CSCore.Codecs;
 using CSCore;
+using CSCore.Utils;
 using CSCore.SoundOut;
+using CSCore.XAudio2;
+using CSharpGL;
+using CSCore.XAudio2.X3DAudio;
 using System.IO;
 
 namespace dreary
 {
     public static class AudioSystem
     {
-        private static WasapiOut Wasapi;
+        //private static WasapiOut Wasapi;
+        private static XAudio2 XAudio2System;
+        private static XAudio2MasteringVoice XMasteringVoice;
+        private static StreamingSourceVoice XSourceVoice;
+        private static X3DAudioCore X3DSystemCore;
         private static Dictionary<string, IWaveSource> PrecachedAudios;
         private static string[] AudiosPrecached;
+        private static int _sourceChannels, _destinationChannels;
         private static List<string> AudiosToBePrecached;
 
         public static void Initialize()
         {
-            Wasapi = new WasapiOut(true, CSCore.CoreAudioAPI.AudioClientShareMode.Shared, 100);
+            //Wasapi = new WasapiOut(true, CSCore.CoreAudioAPI.AudioClientShareMode.Shared, 100);
+            XAudio2System = XAudio2.CreateXAudio2();
+
             AudiosToBePrecached = new List<string>();
         }
 
@@ -53,33 +64,51 @@ namespace dreary
 
         public static void PlayAudio(string name, float volume)
         {
-            IWaveSource wave = PrecachedAudios[name];
-            Console.WriteLine($"PLAYING A {wave.WaveFormat.WaveFormatTag}, sR: {wave.WaveFormat.SampleRate}Hz bPS: {wave.WaveFormat.BitsPerSample} byPS: {wave.WaveFormat.BytesPerSecond}");
-            Wasapi.Initialize(wave);
-            Wasapi.Volume = volume;
-            AudiosToBePrecached.Add(name);
-            Wasapi.Play();
-            Wasapi.Stopped += SFX_DieEV;
+            PlayAudio(name, volume, new Vector3(0), new Listener());
         }
 
-        private static void SFX_DieEV(object sender, PlaybackStoppedEventArgs e)
+        public static void PlayAudio(string name, float volume, Vector3 origin, Listener listener)
         {
-            Wasapi.Dispose();
-            Wasapi = new WasapiOut(true, CSCore.CoreAudioAPI.AudioClientShareMode.Shared, 100);
-            string cwd = Directory.GetCurrentDirectory();
-            List<int> pcR = new List<int>();
-            foreach (string i in AudiosToBePrecached)
+            IWaveSource wave = PrecachedAudios[name];
+            IWaveSource mwave = wave.ToMono();
+            Console.WriteLine($"PLAYING A {mwave.WaveFormat.WaveFormatTag}, sR: {mwave.WaveFormat.SampleRate}Hz bPS: {mwave.WaveFormat.BitsPerSample} byPS: {mwave.WaveFormat.BytesPerSecond}");
+            XMasteringVoice = XAudio2System.CreateMasteringVoice(XAudio2.DefaultChannels, XAudio2.DefaultSampleRate);
+            XSourceVoice = new StreamingSourceVoice(XAudio2System, mwave);
+            object defaultDevice = XAudio2System.DefaultDevice;
+            ChannelMask mask;
+            if (XAudio2System.Version == XAudio2Version.XAudio2_7)
             {
-                Console.WriteLine("Recaching " + i);
-                PrecachedAudios[i].Dispose();
-                PrecachedAudios[i] = CodecFactory.Instance.GetCodec(cwd + "\\" + i);
-                Console.WriteLine("Recached " + i);
-                pcR.Add(AudiosToBePrecached.IndexOf(i));
+                var xaudio27 = (XAudio2_7)XAudio2System;
+                var deviceDetails = xaudio27.GetDeviceDetails((int)defaultDevice);
+                mask = deviceDetails.OutputFormat.ChannelMask;
+                _destinationChannels = deviceDetails.OutputFormat.Channels;
             }
-            foreach(int i in pcR)
+            else
             {
-                AudiosToBePrecached.RemoveAt(i);
+                mask = XMasteringVoice.ChannelMask;
+                _destinationChannels = XMasteringVoice.VoiceDetails.InputChannels;
             }
+
         }
+
+        //private static void SFX_DieEV(object sender, PlaybackStoppedEventArgs e)
+        //{
+        //    Wasapi.Dispose();
+        //    Wasapi = new WasapiOut(true, CSCore.CoreAudioAPI.AudioClientShareMode.Shared, 100);
+        //    string cwd = Directory.GetCurrentDirectory();
+        //    List<int> pcR = new List<int>();
+        //    foreach (string i in AudiosToBePrecached)
+        //    {
+        //        Console.WriteLine("Recaching " + i);
+        //        PrecachedAudios[i].Dispose();
+        //        PrecachedAudios[i] = CodecFactory.Instance.GetCodec(cwd + "\\" + i);
+        //        Console.WriteLine("Recached " + i);
+        //        pcR.Add(AudiosToBePrecached.IndexOf(i));
+        //    }
+        //    foreach(int i in pcR)
+        //    {
+        //        AudiosToBePrecached.RemoveAt(i);
+        //    }
+        //}
     }
 }

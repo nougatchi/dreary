@@ -31,6 +31,7 @@ namespace dreary
         public TreeView treeView { get { return treeView1; } }
         public FirstPerspectiveManipulater camManip;
         public DrearyGameDll gameDll;
+        public bool throwFatalInsteadOfMsg;
 
         public bool StatusmessageEnabled;
         public string Statusmessage;
@@ -113,6 +114,10 @@ namespace dreary
             }
             catch (Exception ex)
             {
+                if(throwFatalInsteadOfMsg)
+                {
+                    throw;
+                }
                 GameFatal gf = new GameFatal(ex);
                 gf.Show();
             }
@@ -165,6 +170,10 @@ namespace dreary
             }
             catch (Exception ex)
             {
+                if (throwFatalInsteadOfMsg)
+                {
+                    throw;
+                }
                 GameFatal gf = new GameFatal(ex);
                 gf.Show();
             }
@@ -225,6 +234,10 @@ namespace dreary
                 }
             } catch(Exception ex)
             {
+                if (throwFatalInsteadOfMsg)
+                {
+                    throw;
+                }
                 GameFatal gf = new GameFatal(ex);
                 gf.Show();
             }
@@ -274,6 +287,10 @@ namespace dreary
                 Match(treeView1, scene.RootNode); // update the treeview
             } catch(Exception e)
             {
+                if (throwFatalInsteadOfMsg)
+                {
+                    throw;
+                }
                 GameFatal gf = new GameFatal(e);
                 gf.Show();
             }
@@ -303,6 +320,10 @@ namespace dreary
                 node.Children.Add(skybox); // add this to the rootnode
             } catch(Exception e)
             {
+                if (throwFatalInsteadOfMsg)
+                {
+                    throw;
+                }
                 GameFatal gf = new GameFatal(e);
                 gf.Show();
             }
@@ -321,6 +342,10 @@ namespace dreary
                 instance.ShowDialog();
             } catch(Exception ex)
             {
+                if (throwFatalInsteadOfMsg)
+                {
+                    throw;
+                }
                 MessageBox.Show(ex.ToString());
                 Match(treeView1, rootElement);
             }

@@ -56,6 +56,12 @@
     <Compile Include="Basplash\BasplashBaseClasses.cs" />
     <Compile Include="DeviconServe.cs" />
     <Compile Include="DrearyGameDll.cs" />
+    <Compile Include="DrearySplash.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DrearySplash.Designer.cs">
+      <DependentUpon>DrearySplash.cs</DependentUpon>
+    </Compile>
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -110,6 +116,9 @@
     <Compile Include="Script\TextInputForm.Designer.cs">
       <DependentUpon>TextInputForm.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="DrearySplash.resx">
+      <DependentUpon>DrearySplash.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
@@ -137,6 +146,9 @@
     <EmbeddedResource Include="Script\TextInputForm.resx">
       <DependentUpon>TextInputForm.cs</DependentUpon>
     </EmbeddedResource>
+    <None Include="game.cfg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

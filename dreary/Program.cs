@@ -14,17 +14,42 @@ namespace dreary
         /// The main entry point for the application.
         /// </summary>
         [STAThread]
-        static void Main()
+        static void Main(string[] args)
         {
             Debug.Listeners.Add(new ConsoleTraceListener());
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            var gameForm = new Form1();
-            if (File.Exists("game.dll"))
+            Form gameForm = new DrearySplash();
+            bool nofagsmode = false;
+            if (args.Length != 0)
             {
-                gameForm.dllMode = true;
-                DrearyGameDll gameDll = new DrearyGameDll("game.dll");
-                gameForm.gameDll = gameDll;
+                foreach(string i in args)
+                {
+                    switch(i)
+                    {
+                        case "-nosplash":
+                            Form1 gf = new Form1();
+                            if (File.Exists("game.dll"))
+                            {
+                                gf.dllMode = true;
+                                DrearyGameDll gameDll = new DrearyGameDll("game.dll");
+                                gf.gameDll = gameDll;
+                                gf.throwFatalInsteadOfMsg = nofagsmode;
+                            }
+                            gameForm = gf;
+                            break;
+                        case "-nofatals":
+                            nofagsmode = true;
+                            break;
+                        case "-h":
+                            Console.WriteLine("Dreary Command Line Arguments\n" +
+                                "\n" +
+                                "\t-nosplash : Disables the splash screen\n" +
+                                "\t-nofatals : Disables the Fatal Error messages, better for debug\n" +
+                                "\t-h        : Shows this help message");
+                            break;
+                    }
+                }
             }
             Application.Run(gameForm);
         }
