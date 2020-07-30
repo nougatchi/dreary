@@ -48,11 +48,15 @@ namespace dreary
                                 "\t-nosplash : Disables the splash screen\n" +
                                 "\t-nofatals : Disables the Fatal Error messages, better for debug\n" +
                                 "\t-progtest : Starts program testing mode\n" +
+                                "\t-progauto : Automatically tests dreary\n" +
                                 "\t-h        : Shows this help message");
                             Application.Exit();
                             break;
                         case "-progtest":
                             ProgTest.Run();
+                            break;
+                        case "-progauto":
+                            ProgTest.RunAutomated();
                             break;
                     }
                 }
