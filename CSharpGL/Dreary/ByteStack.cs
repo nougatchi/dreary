@@ -104,5 +104,10 @@ namespace CSharpGL.Dreary
             output = BitConverter.ToInt64(ar, 0);
         }
         #endregion
+
+        public byte[] DumpStack()
+        {
+            return _stack;
+        }
     }
 }

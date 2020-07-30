@@ -51,10 +51,10 @@
             this.label3.AutoSize = true;
             this.label3.Location = new System.Drawing.Point(9, 448);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(611, 13);
+            this.label3.Size = new System.Drawing.Size(442, 13);
             this.label3.TabIndex = 2;
             this.label3.Text = "Psychosis Interactive (C) 2020-2021, CSharpGL and CSharpGL.Windows (C) bitzhuwei " +
-    "2018, CSCore is under the Ms-Pl License";
+    "2018";
             // 
             // richTextBox1
             // 

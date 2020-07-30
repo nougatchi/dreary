@@ -16,6 +16,7 @@ namespace dreary
         [STAThread]
         static void Main(string[] args)
         {
+            Console.Title = "Dreary";
             Debug.Listeners.Add(new ConsoleTraceListener());
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
@@ -56,6 +57,7 @@ namespace dreary
                     }
                 }
             }
+            Console.Title = "Dreary";
             Application.Run(gameForm);
         }
     }

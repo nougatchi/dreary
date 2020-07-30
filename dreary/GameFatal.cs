@@ -8,7 +8,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using CSCore.Codecs.MP3;
 
 namespace dreary
 {
@@ -25,7 +24,7 @@ namespace dreary
                 Console.WriteLine($"{ex.Message}\n{ex.Source}\n{ex.TargetSite}\n{ex.StackTrace}\n{ex.HResult}\n{ex.HelpLink}\nReport this to @nougatchi#2097 over discord.");
             } catch(Exception ex)
             {
-                MessageBox.Show("Apparently, there was an error showing the error dialogue. Press exit to exit. Heres the error data:" + $"{ex.Message}\n{ex.Source}\n{ex.TargetSite}\n{ex.StackTrace}\n{ex.HResult}\n{ex.HelpLink}\nReport this to @nougatchi#2097 over discord.");
+                MessageBox.Show("Apparently, there was an error showing the error dialogue. Press OK to exit. Heres the error data:" + $"{ex.Message}\n{ex.Source}\n{ex.TargetSite}\n{ex.StackTrace}\n{ex.HResult}\n{ex.HelpLink}\nReport this to @nougatchi#2097 over discord.");
                 Application.Exit();
             }
             try

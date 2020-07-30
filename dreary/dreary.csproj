@@ -171,10 +171,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\CSCore\CSCore.csproj">
-      <Project>{c3dccfe3-dd3f-4eee-849b-33e355b1e064}</Project>
-      <Name>CSCore</Name>
-    </ProjectReference>
     <ProjectReference Include="..\CSharpGL.Windows\CSharpGL.Windows.csproj">
       <Project>{704921fb-e30a-4c8a-bc73-f343ab2eb690}</Project>
       <Name>CSharpGL.Windows</Name>
