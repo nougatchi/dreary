@@ -13,6 +13,7 @@ using System.Threading.Tasks;
 //using CSCore.XAudio2.X3DAudio;
 using CSharpGL;
 using System.IO;
+using System.Windows.Media;
 
 namespace dreary
 {
@@ -60,6 +61,9 @@ namespace dreary
 
         public static void PlayAudio(string name)
         {
+            MediaPlayer player = new MediaPlayer();
+            player.Open(new Uri(name));
+            player.Play();
             //PlayAudio(name, 1.0f);
         }
 
