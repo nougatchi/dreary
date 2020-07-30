@@ -36,17 +36,6 @@ jobs:
 
     - name: Pack Dreary
       run: tar -czvf dreary.tar.gz dreary/bin/Debug
-      
-    - name: Unique Name Generator Action
-      id: uniquename
-      uses: TGPSKI/name-generator-node-action@v2
-      with:
-        # What separator to use
-        separator: . # default is -
-        # How many words in the name
-        length: 2 # default is 2
-        # Name output case style
-        style: lowerCase # default is lowerCase
 
     - name: Github tagger
       id: tagger
@@ -55,17 +44,13 @@ jobs:
         # The tag prefix
         tag-prefix: dtg-v # default is dev-v
 
-    - name: Upload Asset
-      uses: PeerXu/upload-asset@v1
+    - name: Upload assets to a Release
+      uses: AButler/upload-release-assets@v2.0
       with:
-        # which file to upload
-        file: dreary.tar.gz
-        # file suffix
-        suffix: .tar.gz
-        # which operating system platform for file to execute
-        os: windows
-        # which architecture platform for file to execute
-        arch: x86_64
-        # upload file to asset with tag version
-        with_tag: ${{ steps.tagger.output.newTag }}
+        # A glob of the files to upload
+        files: dreary.tar.gz
+        # The tag name of the release to upload to (if not specified then the release that triggered the workflow is used)
+        release-tag: ${{ steps.tagger.outputs.newTag }}
+        # secrets.GITHUB_TOKEN
+        repo-token: ${{ secrets.GITHUB_TOKEN }}
 
