@@ -31,11 +31,18 @@ jobs:
     - name: Restore Packages
       run: nuget restore dreary.sln
       
-    - name: Build and Publish
+    - name: Build
       run: msbuild dreary.sln /p:Configuration=Debug
-
-    - name: Upload Artifact
-      uses: actions/upload-artifact@v1.0.0
+    
+    - name: Zip Release
+      uses: TheDoctor0/zip-release@0.4.1
       with:
-        name: dreary_compile
-        path: bin\Debug\
+        # Filename for archive
+        filename: release.zip # default is release.zip
+        # Base path for archive files
+        path: bin/Debug # optional, default is .
+        # Working directory before zipping
+        directory: dreary/ # optional, default is .
+        # List of excluded files / directories
+        # Tool to use for archiving
+        type: zip # optional, default is zip
