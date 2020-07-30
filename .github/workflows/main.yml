@@ -33,16 +33,9 @@ jobs:
       
     - name: Build
       run: msbuild dreary.sln /p:Configuration=Debug
-    
-    - name: Zip Release
-      uses: TheDoctor0/zip-release@0.4.1
+
+    - name: Tag new push
+      uses: mosfetlang/dev-tagger-action@v1
       with:
-        # Filename for archive
-        filename: release.zip # default is release.zip
-        # Base path for archive files
-        path: bin/Debug # optional, default is .
-        # Working directory before zipping
-        directory: dreary/ # optional, default is .
-        # List of excluded files / directories
-        # Tool to use for archiving
-        type: zip # optional, default is zip
+        # The tag prefix
+        tag-prefix: dtg-v # default is dev-v
