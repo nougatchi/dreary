@@ -1,6 +1,6 @@
 # This is a basic workflow to help you get started with Actions
 
-name: CI
+name: DrearyCompile
 
 # Controls when the action will run. Triggers the workflow on push or pull request
 # events but only for the master branch
@@ -34,8 +34,28 @@ jobs:
     - name: Build
       run: msbuild dreary.sln /p:Configuration=Debug
 
-    - name: Tag new push
-      uses: mosfetlang/dev-tagger-action@v1
+    - name: Pack Dreary
+      run: tar -czvf dreary.tar.gz dreary/bin/Debug
+      
+    - name: Unique Name Generator Action
+      uses: TGPSKI/name-generator-node-action@v2
       with:
-        # The tag prefix
-        tag-prefix: dtg-v # default is dev-v
+        # What separator to use
+        separator: . # default is -
+        # How many words in the name
+        length: 2 # default is 2
+        # Name output case style
+        style: lowerCase # default is lowerCase
+
+    - name: Upload to Release Action
+      uses: Shopify/upload-to-release@1.0.0
+      with:
+        # Artifact name
+        name: ${{ steps.generator.outputs.name }}
+        # Path to the file to upload
+        path: dreary.tar.gz
+        # Content type for the file
+        content-type: application/gzip # optional, default is application/octet-stream
+        # secrets.GITHUB_TOKEN
+        repo-token: ${{ secrets.GITHUB_TOKEN }}
+
