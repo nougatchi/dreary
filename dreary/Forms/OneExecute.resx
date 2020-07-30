@@ -119,10 +119,13 @@
   </resheader>
   <data name="richTextBox1.Text" xml:space="preserve">
     <value>// Scene scene is the current scene, Camera cam is the camera, Form1 form is the containing form
-public static void Entry(Scene scene, Camera cam, Form1 form)
+public static void Entry(Scene scene, Camera cam, Form1 form, double version)
 {
-	Console.WriteLine("Hello World!");
-	// entry code goes here...
+	if(version == 1.0) {
+
+	} else {
+		DrearyEForms.ShowNotice("Outdated version","Your version of Dreary conflicts with this scripts version.");
+	}
 }</value>
   </data>
 </root>

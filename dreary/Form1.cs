@@ -70,8 +70,6 @@ namespace dreary
         {
             try
             {
-                AudioSystem.Initialize();
-                AudioSystem.PrecacheAudios("GameSounds/rwd.mp3","GameSounds/clickfast.wav");
                 if (!dllMode)
                 {
                     InitGame(); // initgame creates pcam, actionlist, scene and time
@@ -217,16 +215,10 @@ namespace dreary
                         {
                             tasks += $"{i.GetType().Name} ";
                         }
-                        string pcac = "P_Audios: ";
-                        foreach(string i in AudioSystem.GetPrecachedAudios())
-                        {
-                            pcac += $"{i} ";
-                        }
                         GL.Instance.DrawText(10, 58, Color.Red, "Verdana", 12, $"RAM Usage (no gc): {GC.GetTotalMemory(false)/1024}"); 
                         GL.Instance.DrawText(10, 22, Color.Red, "Verdana", 12, "List Size: " + list.Count);
                         GL.Instance.DrawText(10, 34, Color.Red, "Verdana", 12, tasks);
                         GL.Instance.DrawText(10, 10, Color.Red, "Verdana", 12, "FPS: " + winGLCanvas1.FPS.ToString() + " Time " + (DateTime.Now - time).Seconds);
-                        GL.Instance.DrawText(10, 46, Color.Red, "Verdana", 12, pcac);
                     }
                     if (StatusmessageEnabled)
                     {
@@ -509,7 +501,7 @@ namespace dreary
                 {
                     Console.WriteLine("[ERROR in JIT Code] " + i.ErrorText);
                 }
-                results.CompiledAssembly.GetType("RuntimeCode.Code").GetMethod("Entry").Invoke(null, new object[] { scene, pcam, this });
+                results.CompiledAssembly.GetType("RuntimeCode.Code").GetMethod("Entry").Invoke(null, new object[] { scene, pcam, this, 1.0 });
                 provider.Dispose();
             }
             catch (Exception exc)
