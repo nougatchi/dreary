@@ -53,8 +53,8 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        tag_name: ${{ steps.generator.outputs.name }}
-        release_name: ${{ steps.generator.outputs.name }}
+        tag_name: "${{ steps.generator.outputs.name }}"
+        release_name: "${{ steps.generator.outputs.name }} Build"
         draft: false
         prerelease: true
     - name: Upload Release Asset
