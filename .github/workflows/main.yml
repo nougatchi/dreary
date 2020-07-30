@@ -33,24 +33,3 @@ jobs:
       
     - name: Build
       run: msbuild dreary.sln /p:Configuration=Debug
-
-    - name: Pack Dreary
-      run: tar -czvf dreary.tar.gz dreary/bin/Debug
-
-    - name: Github tagger
-      id: tagger
-      uses: mosfetlang/dev-tagger-action@v1
-      with:
-        # The tag prefix
-        tag-prefix: dtg-v # default is dev-v
-
-    - name: Upload assets to a Release
-      uses: AButler/upload-release-assets@v2.0
-      with:
-        # A glob of the files to upload
-        files: dreary.tar.gz
-        # The tag name of the release to upload to (if not specified then the release that triggered the workflow is used)
-        release-tag: ${{ steps.tagger.outputs.newTag }}
-        # secrets.GITHUB_TOKEN
-        repo-token: ${{ secrets.GITHUB_TOKEN }}
-
