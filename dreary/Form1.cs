@@ -15,6 +15,7 @@ using System.Reflection;
 using System.Diagnostics;
 using Microsoft.CSharp;
 using System.CodeDom.Compiler;
+using dreary.Properties;
 
 namespace dreary
 {
@@ -209,7 +210,7 @@ namespace dreary
                     GL.Instance.ClearColor(clearColor.x, clearColor.y, clearColor.z, clearColor.w);
                     GL.Instance.Clear(GL.GL_COLOR_BUFFER_BIT | GL.GL_DEPTH_BUFFER_BIT | GL.GL_STENCIL_BUFFER_BIT);
                     list.Act(new ActionParams(Viewport.GetCurrent())); // fixed
-                    if (!nodbg)
+                    if (!nodbg) // nodbg will toggle this
                     {
                         string tasks = "Tasks: ";
                         foreach (object i in list)
@@ -221,11 +222,11 @@ namespace dreary
                         {
                             pcac += $"{i} ";
                         }
-                        GL.Instance.DrawText(10, 58, Color.Red, "Fixedsys", 12, $"RAM Usage (no gc): {GC.GetTotalMemory(false)/1024}"); 
-                        GL.Instance.DrawText(10, 22, Color.Red, "Fixedsys", 12, "List Size: " + list.Count);
-                        GL.Instance.DrawText(10, 34, Color.Red, "Fixedsys", 12, tasks);
-                        GL.Instance.DrawText(10, 10, Color.Red, "Fixedsys", 12, "FPS: " + winGLCanvas1.FPS.ToString() + " Time " + (DateTime.Now - time).Seconds);
-                        GL.Instance.DrawText(10, 46, Color.Red, "Fixedsys", 12, pcac);
+                        GL.Instance.DrawText(10, 58, Color.Red, "Verdana", 12, $"RAM Usage (no gc): {GC.GetTotalMemory(false)/1024}"); 
+                        GL.Instance.DrawText(10, 22, Color.Red, "Verdana", 12, "List Size: " + list.Count);
+                        GL.Instance.DrawText(10, 34, Color.Red, "Verdana", 12, tasks);
+                        GL.Instance.DrawText(10, 10, Color.Red, "Verdana", 12, "FPS: " + winGLCanvas1.FPS.ToString() + " Time " + (DateTime.Now - time).Seconds);
+                        GL.Instance.DrawText(10, 46, Color.Red, "Verdana", 12, pcac);
                     }
                     if (StatusmessageEnabled)
                     {
@@ -314,7 +315,7 @@ namespace dreary
                 }
                 catch (Exception e)
                 {
-
+                    skybox = Nodes.SkyboxNode.Create(Resources.NoSkyDefault); // otherwise load the noskydefault
                 }
                 skybox.Name = "Skybox";
                 node.Children.Add(skybox); // add this to the rootnode

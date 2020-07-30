@@ -8,10 +8,10 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace dreary.Properties
-{
-
-
+namespace dreary.Properties {
+    using System;
+    
+    
     /// <summary>
     ///   A strongly-typed resource class, for looking up localized strings, etc.
     /// </summary>
@@ -19,52 +19,177 @@ namespace dreary.Properties
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class Resources
-    {
-
+    internal class Resources {
+        
         private static global::System.Resources.ResourceManager resourceMan;
-
+        
         private static global::System.Globalization.CultureInfo resourceCulture;
-
+        
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal Resources()
-        {
+        internal Resources() {
         }
-
+        
         /// <summary>
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager
-        {
-            get
-            {
-                if ((resourceMan == null))
-                {
+        internal static global::System.Resources.ResourceManager ResourceManager {
+            get {
+                if (object.ReferenceEquals(resourceMan, null)) {
                     global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("dreary.Properties.Resources", typeof(Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
             }
         }
-
+        
         /// <summary>
         ///   Overrides the current thread's CurrentUICulture property for all
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture
-        {
-            get
-            {
+        internal static global::System.Globalization.CultureInfo Culture {
+            get {
                 return resourceCulture;
             }
-            set
-            {
+            set {
                 resourceCulture = value;
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to #version 330
+        ///uniform vec4 color;
+        ///uniform int renderMode;
+        ///uniform vec3 lightDir;
+        ///uniform vec3 viewPos;
+        ///uniform vec4 lightColor;
+        ///in vec3 normal;
+        ///in vec3 inPosition;
+        ///out vec4 outColor;
+        ///void main() {
+        ///    switch(renderMode) {
+        ///        case 0:
+        ///            float zeintensity;
+        ///            zeintensity = dot(lightDir,normalize(normal));
+        ///            vec4 zediffuse = zeintensity * lightColor;
+        ///            outColor = zediffuse * color; // fill the fragment with specified color.
+        ///            break;
+        ///        c [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string CubeNodeFrag {
+            get {
+                return ResourceManager.GetString("CubeNodeFrag", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to #version 330
+        ///
+        ///layout(triangles) in;
+        ///layout(triangle_strip, max_vertices=3) out;
+        ///
+        ///out vec3 normal;
+        ///
+        ///void main( void )
+        ///{
+        ///    vec3 a = ( gl_in[1].gl_Position - gl_in[0].gl_Position ).xyz;
+        ///    vec3 b = ( gl_in[2].gl_Position - gl_in[0].gl_Position ).xyz;
+        ///    vec3 N = normalize( cross( b, a ) );
+        ///
+        ///    for( int i=0; i&lt;gl_in.length( ); ++i )
+        ///    {
+        ///        gl_Position = gl_in[i].gl_Position;
+        ///        normal = N;
+        ///        EmitVertex( );
+        ///    }
+        ///
+        ///    EndPrimitive( );
+        ///}.
+        /// </summary>
+        internal static string CubeNodeGeom {
+            get {
+                return ResourceManager.GetString("CubeNodeGeom", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to #version 150
+        ///// element in vertex buffer. Vertex&apos; position in model space.
+        ///in vec3 inPosition;
+        ///uniform mat4 mvpMatrix;
+        ///
+        ///void main() {
+        ///    // transform vertex&apos; position from model space to clip space.
+        ///    gl_Position = mvpMatrix * vec4(inPosition, 1.0); 
+        ///}.
+        /// </summary>
+        internal static string CubeNodeVert {
+            get {
+                return ResourceManager.GetString("CubeNodeVert", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap NoSkyDefault {
+            get {
+                object obj = ResourceManager.GetObject("NoSkyDefault", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to #version 330 core
+        /// 
+        ///layout (location=0) out vec4 outColor;
+        ///uniform vec4 color;
+        ///uniform int renderMode;
+        ///in vec4 position;
+        ///void main()
+        ///{
+        ///    switch(renderMode) {
+        ///        case 0:
+        ///            
+        ///            break;
+        ///        case 2:
+        ///            outColor = color - vec4(position.y,position.y,position.y,0);
+        ///            break;
+        ///        case 3:
+        ///            outColor = color;
+        ///            break;
+        ///    }
+        ///}
+        ///.
+        /// </summary>
+        internal static string TerrainNodeFrag {
+            get {
+                return ResourceManager.GetString("TerrainNodeFrag", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to #version 330 core
+        ///  
+        /////uniforms
+        ///uniform mat4 mvpMat;					//combined modelview projection matrix
+        ///uniform ivec2 terrainSize;	//half terrain size
+        ///uniform sampler2D heightMapTexture;	//heightmap texture
+        ///uniform float scale;				//scale for the heightmap height
+        ///out vec4 position; // for frag
+        ///void main()
+        ///{   
+        ///    float u = float(gl_VertexID % terrainSize.x) / float(terrainSize.x - 1);
+        ///    float v = float(gl_VertexID / terrainSize.x) / float(terrainSize.y - 1);
+        ///	float height = (texture(heightMapTexture, [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string TerrainNodeVert {
+            get {
+                return ResourceManager.GetString("TerrainNodeVert", resourceCulture);
             }
         }
     }

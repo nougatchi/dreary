@@ -139,6 +139,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <EmbeddedResource Include="Script\NoticeForm.resx">
       <DependentUpon>NoticeForm.cs</DependentUpon>
@@ -149,6 +150,11 @@
     <None Include="game.cfg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="Nodes\Shader\cubenodeshader.frag" />
+    <None Include="Nodes\Shader\cubenodeshader.geom" />
+    <None Include="Nodes\Shader\cubenodeshader.vert" />
+    <None Include="Nodes\Shader\terrainnodeshader.frag" />
+    <None Include="Nodes\Shader\terrainnodeshader.vert" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -624,6 +630,7 @@
     <Content Include="GameSounds\rwd.mp3">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <None Include="Resources\NoSkyDefault.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

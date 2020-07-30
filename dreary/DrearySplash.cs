@@ -47,7 +47,7 @@ namespace dreary
 
         private void label1_Click(object sender, EventArgs e)
         {
-            label1.Text = "RR2020";
+            label1.Text = "DREAMSCAPE 2";
         }
     }
 }
