@@ -31,11 +31,11 @@ jobs:
     - name: Restore Packages
       run: nuget restore dreary.sln
       
-    - name: Build and Publish
+    - name: Build
       run: msbuild dreary.sln /p:Configuration=Debug
 
-    - name: Upload Artifact
-      uses: actions/upload-artifact@v1.0.0
+    - name: Tag new push
+      uses: mosfetlang/dev-tagger-action@v1
       with:
-        name: dreary_compile
-        path: bin\Debug\
+        # The tag prefix
+        tag-prefix: dtg-v # default is dev-v
